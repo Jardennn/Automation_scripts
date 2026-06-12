@@ -63,7 +63,7 @@ This script relies on Python standard libraries. There is no need for external p
 
 Before execution, verify that your local environment meets the following criteria:
 
-* **Python version:** Python 3.10 or higher is recommended,
+* **Python version:** Python 3.8 or higher is recommended.
 
 * **Permissions:** Read/Write access permissions granted for the existing sub-directories and parent directory.
 
