@@ -15,7 +15,7 @@ This repository serves as a centralized "toolbox" for utilities written primaril
 
 ### 1. Automated File Organizer
 * **Description:** Scans specified directories (e.g., Downloads) and dynamically categorizes files into structured subfolders based on extension types. 
-* **Core Tech:** Python (`os`, `pathlib`, `shutil`)
+* **Core Tech:** Python (`os`, `pathlib`, `sys`, `time`)
 * **Links:** [Source Code](scripts/file_organizer.py) | [Detailed Documentation](docs/file_organizer.md)
 
 *(More scripts will be added as they are developed.)*
