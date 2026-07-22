@@ -18,6 +18,11 @@ This repository serves as a centralized "toolbox" for utilities written primaril
 * **Core Tech:** Python (`os`, `pathlib`, `sys`, `time`)
 * **Links:** [Source Code](scripts/file_organizer.py) | [Detailed Documentation](docs/file_organizer.md)
 
+### 2. pls
+* **Description:** Lists entries in a given path with info about the size and permissions.
+* **Core Tech:** Python (`os`, `pathlib`, `argparse`)
+* **Links:** [Source Code](scripts/pls.py) | [Detailed Documentation](docs/pls.md)
+
 *(More scripts will be added as they are developed.)*
 
 ---
