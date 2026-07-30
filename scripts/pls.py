@@ -3,12 +3,13 @@ import sys
 from pathlib import Path
 import argparse
 import stat
+from datetime import datetime
 
 parser = argparse.ArgumentParser(description="A script for displaying path entries", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-p", "--path", type=Path, help="The path of your directory to watch (relative or absolute), leave empty for using the current working directory")
-parser.add_argument("-s", "--sort", choices=["Bigtosmall", "Smalltobig", "A-Z", "Z-A"], type=str, help="""Sort the output. options:
-Big to small - Sort the files from the biggest to smallest
-Small to big - Sort the files from the smallest to biggest
+parser.add_argument("-s", "--sort", choices=["size-desc", "size-asc", "A-Z", "Z-A"], type=str, help="""Sort the output. options:
+size-desc - Sort the files from the biggest to smallest
+size-asc - Sort the files from the smallest to biggest
 A-Z - Sort the files alphetically
 Z-A - Sort the files alphetically reversed""")
 parser.add_argument("-a", "--all", action='store_true', help="Output all of the files in the given path")
@@ -104,19 +105,54 @@ def remove_hidden(entries):
 
     return filtered
 
-print("Permissions | Size | Name")
+def sorts():
+    # Sorting alphetically
+    if args.sort == 'A-Z':
+        new_entries = sorted(entries, key=lambda p: p.name.lower())
+        
+        return new_entries
+
+    # Sorting alphetically in reverse
+    if args.sort == 'Z-A':
+        new_entries = sorted(entries, key=lambda p: p.name.lower())
+
+        new_entries.reverse()
+        
+        return new_entries
+
+    # Sorting by size ascending
+    if args.sort == 'size-asc':
+        new_entries = sorted(entries, key=lambda p: p.stat().st_size)
+
+        return new_entries
+
+    # Sorting by size decending
+    if args.sort == 'size-desc':
+        new_entries = sorted(entries, key=lambda p: p.stat().st_size, reverse=True)
+
+        return new_entries
+
+    return None
+
+print("Permissions | Size | Date | Name")
 
 if args.all is False:
+    if sorts() != None:
+        entries = sorts()
+
     filtered = remove_hidden(entries)
     for item in filtered:
         try:
-            print(f"[{perms_to_string(item.stat().st_mode)}] | [{sizes_convert(item.stat().st_size)}] | [{item.name}]")
+            print(f"[{perms_to_string(item.stat().st_mode)}] | [{sizes_convert(item.stat().st_size)}] | [{datetime.fromtimestamp(item.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")}] | [{item.name}]")
         except FileNotFoundError:
             continue
 
 else:
+    if sorts() != None:
+        entries = sorts()
+
     for item in entries:
         try:
-            print(f"[{perms_to_string(item.stat().st_mode)}] | [{sizes_convert(item.stat().st_size)}] | [{item.name}]")
+            print(f"[{perms_to_string(item.stat().st_mode)}] | [{sizes_convert(item.stat().st_size)}] | [{datetime.fromtimestamp(item.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")}] | [{item.name}]")
         except FileNotFoundError:
             continue
